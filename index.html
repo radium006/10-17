@@ -1,0 +1,47 @@
+<html>
+    <head>
+        <title>Grocery Store Assignment</title>
+        <link rel="stylesheet" type="text/css" href="styles.css">
+    </head>
+    <body>
+        <div class = "container">
+            <div class="header">
+                <h1>DigitalCrafts Grocery</h1>
+            </div>
+            <div class="navBar">
+                <button id='showAll'>View Current List</button>
+                <button id="addCat">Add Category</button>
+                <button id="addItem">Add item to category</button>
+            </div>
+            <div class="inputArea" id = "inputform">
+                <input type="text" id="enter">
+                <select id='categorySelect'>
+                    <option value="first">first</option>
+                </select>
+                <button id="submit">Submit</button>
+            </div>
+            <div>
+                <ul id='list'>
+
+                </ul>
+            </div>
+        </div>
+    </body>
+    <script src="https://www.gstatic.com/firebasejs/5.5.4/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.4/firebase-database.js"></script>
+
+    <script>
+  // Initialize Firebase
+        var config = {
+        apiKey: "AIzaSyBfphUHF4wdH8pjqwruywpl6yT_TpwZAyk",
+        authDomain: "test-3e0a0.firebaseapp.com",
+        databaseURL: "https://test-3e0a0.firebaseio.com",
+        projectId: "test-3e0a0",
+        storageBucket: "test-3e0a0.appspot.com",
+        messagingSenderId: "38416732270"
+        };
+    firebase.initializeApp(config);
+    </script> 
+    <script src="jQuery.js"></script>
+    <script src="app.js"></script>  
+</html>
