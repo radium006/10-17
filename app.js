@@ -35,6 +35,13 @@ function configureObservers(){ //serts up the observer so that database is auto-
     })
 }
 
+function deleteItem(categoryName, item){
+    
+    catRef.child(categoryName).child("items").child(item).remove()
+    
+        
+}
+
 function createItemList(category){
     if(category.items == null) {
         return ''
@@ -42,7 +49,8 @@ function createItemList(category){
     else{
         let itemElms = ""
         for(item in category.items){
-            itemElms += `<li>${item}</li>`
+            storeRef = category.items
+            itemElms += `<li><label>${item}</label><button onclick="deleteItem('${category.name}', '${item}')">X</button></li>`
         }
         return itemElms
     }  
