@@ -1,38 +1,66 @@
 const database = firebase.database();
 const catRef = database.ref('categories')
 
+inputbox = $("#enter")
 
+let items = []
+let categories = [] // holds all database elements
 
-function displayStuff(catArr){
-    let liItems = catArr.map(function(cat){
-        return `<li>${cat.Category}</li>`
+$('#submitButton').click(function(){
+    let category_name = inputbox.val()
+    addCategory(category_name)
+})
 
-    })
-    $("#list").html(liItems)
+function addCategory(category){
+    
+    catRef.child(category).set({name : category})
 }
 
-$('#addCat').click(function(){
-    $("#inputform").toggle("slow","swing")
-})
-
-$('#submit').click(function(){
-    let catName = $("#enter").val()
-    let catRef = database.ref("categories").push()
-    catRef.set({
-        Category: catName
+function addItem(btn, category){
+    let groceryItem = btn.previousElementSibling.value
+    let itemRef = catRef.child(category).child("items")
+    itemRef.child(groceryItem).set({
+        item: groceryItem,
     })
-    $("#inputform").toggle("slow","swing")
-    //alert("Category added")
+}
 
-})
+function configureObservers(){ //serts up the observer so that database is auto-updated
+    catRef.on('value', function(snapshot){
+        categories = []
+        
+        snapshot.forEach(function(childSnapshot){
+            categories.push(childSnapshot.val())
+        })
+        displayCategories()
+    })
+}
 
-$("#showAll").click(function(){
-    catArr = []
+function createItemList(category){
+    if(category.items == null) {
+        return ''
+      }
+    else{
+        let itemElms = ""
+        for(item in category.items){
+            itemElms += `<li>${item}</li>`
+        }
+        return itemElms
+    }  
+}
+
+function displayCategories(){ //displays the current cat list
     
-    catRef.on('value',function(snapshot){
-        snapshot.forEach(function(child){
-            catArr.push(child.val())
-        })      
+    let liItem = categories.map(function(category){
+
+        
+        return `<li>
+        <label>${category.name}</lable>
+        <input type ="text" placeholder = "Enter item to add">
+        <button onclick="addItem(this, '${category.name}')">Add Item</button>
+        <ul id="itemList">${createItemList(category)} </ul>
+        </li>`
     })
-    displayStuff(catArr)
-})
+    list.innerHTML = liItem.join(' ')
+}
+
+configureObservers()
